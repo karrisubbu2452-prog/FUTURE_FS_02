@@ -2,90 +2,34 @@
 <html>
 <head>
   <title>Mini CRM</title>
-
-  <style>
-    body {
-      font-family: Arial;
-      padding: 20px;
-    }
-
-    input {
-      padding: 8px;
-      margin: 5px;
-      width: 200px;
-    }
-
-    button {
-      padding: 6px 10px;
-      margin: 3px;
-      cursor: pointer;
-    }
-
-    table {
-      margin-top: 15px;
-      border-collapse: collapse;
-      width: 80%;
-    }
-
-    th, td {
-      padding: 8px;
-      border: 1px solid black;
-      text-align: left;
-    }
-
-    th {
-      background-color: #f2f2f2;
-    }
-  </style>
-
 </head>
 
 <body>
 
   <h2>Add Customer</h2>
 
-  <input id="name" placeholder="Name" required><br><br>
-  <input id="email" placeholder="Email" required><br><br>
-  <input id="phone" placeholder="Phone" required><br><br>
+  <input id="name" placeholder="Name"><br><br>
+  <input id="email" placeholder="Email"><br><br>
+  <input id="phone" placeholder="Phone"><br><br>
 
   <button onclick="addCustomer()">Add</button>
 
   <h2>Customers</h2>
 
-  <!-- SEARCH -->
   <input id="search" placeholder="Search by name..." onkeyup="searchCustomer()">
   <br><br>
 
-  <table id="table">
+  <table border="1" id="table">
     <tr>
       <th>Name</th>
       <th>Email</th>
       <th>Phone</th>
       <th>Status</th>
-      <th>Actions</th>
+      <th>Action</th>
     </tr>
   </table>
 
   <script src="script.js"></script>
-
-  <script>
-    function searchCustomer() {
-      const value = document.getElementById("search").value.toLowerCase();
-      const rows = document.querySelectorAll("#table tr");
-
-      rows.forEach((row, index) => {
-        if (index === 0) return;
-
-        const name = row.children[0].innerText.toLowerCase();
-
-        if (name.includes(value)) {
-          row.style.display = "";
-        } else {
-          row.style.display = "none";
-        }
-      });
-    }
-  </script>
 
 </body>
 </html>

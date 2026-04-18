@@ -36,6 +36,21 @@ app.get("/data", async (req, res) => {
   }
 });
 
+// UPDATE CUSTOMER
+app.put("/update/:id", async (req, res) => {
+  try {
+    const updated = await Customer.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.put("/update/:id", async (req, res) => {
   try {
     const data = await Customer.findByIdAndUpdate(

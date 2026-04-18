@@ -1,97 +1,93 @@
-const API = "http://localhost:5000";
+const BASE_URL = "https://mini-crm-backend-ilcq.onrender.com";
 
-// ================= ADD =================
+// ➕ ADD CUSTOMER
 async function addCustomer() {
   const name = document.getElementById("name").value;
   const email = document.getElementById("email").value;
   const phone = document.getElementById("phone").value;
 
   if (!name || !email || !phone) {
-    alert("All fields required");
+    alert("Please fill all fields");
     return;
   }
 
-  await fetch(`${API}/add`, {
+  await fetch(BASE_URL + "/add", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      name,
-      email,
-      phone,
-      status: "new"
-    })
+    body: JSON.stringify({ name, email, phone })
   });
+
+  loadCustomers();
 
   // clear inputs
   document.getElementById("name").value = "";
   document.getElementById("email").value = "";
   document.getElementById("phone").value = "";
-
-  loadData();
 }
 
 
-// ================= LOAD =================
-async function loadData() {
-  const res = await fetch(`${API}/data`);
+// 📥 LOAD CUSTOMERS
+async function loadCustomers() {
+  const res = await fetch(BASE_URL + "/data");
   const data = await res.json();
 
   const table = document.getElementById("table");
 
+  // reset table (keep header)
   table.innerHTML = `
     <tr>
       <th>Name</th>
       <th>Email</th>
       <th>Phone</th>
       <th>Status</th>
-      <th>Actions</th>
+      <th>Action</th>
     </tr>
   `;
 
-  data.forEach(c => {
-    table.innerHTML += `
-      <tr>
-        <td>${c.name}</td>
-        <td>${c.email}</td>
-        <td>${c.phone}</td>
-        <td>${c.status || "new"}</td>
-        <td>
-          <button onclick="updateStatus('${c._id}')">Contacted</button>
-          <button onclick="deleteCustomer('${c._id}')">Delete</button>
-        </td>
-      </tr>
+  data.forEach(user => {
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>${user.name}</td>
+      <td>${user.email}</td>
+      <td>${user.phone || ""}</td>
+      <td>${user.status}</td>
+      <td>
+        <button onclick="deleteCustomer('${user._id}')">Delete</button>
+      </td>
     `;
+
+    table.appendChild(row);
   });
 }
 
 
-// ================= UPDATE =================
-async function updateStatus(id) {
-  await fetch(`${API}/update/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      status: "contacted"
-    })
-  });
-
-  loadData();
-}
-
-
-// ================= DELETE =================
+// ❌ DELETE CUSTOMER
 async function deleteCustomer(id) {
-  await fetch(`${API}/delete/${id}`, {
+  await fetch(BASE_URL + "/delete/" + id, {
     method: "DELETE"
   });
 
-  loadData();
+  loadCustomers();
 }
 
 
-// ================= AUTO LOAD =================
-loadData();
+// 🔍 SEARCH
+function searchCustomer() {
+  const input = document.getElementById("search").value.toLowerCase();
+  const rows = document.querySelectorAll("#table tr");
+
+  rows.forEach((row, index) => {
+    if (index === 0) return; // skip header
+
+    const name = row.children[0].innerText.toLowerCase();
+
+    row.style.display = name.includes(input) ? "" : "none";
+  });
+}
+
+
+// 🔄 AUTO LOAD
+loadCustomers();
