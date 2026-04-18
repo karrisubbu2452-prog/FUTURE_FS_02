@@ -59,16 +59,21 @@ app.delete("/delete/:id", async (req, res) => {
 });
 
 // ✅ DB CONNECT (ONLY ONCE)
+// ✅ DB CONNECT + SERVER START (correct way)
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log("DB Error:", err));
+.then(() => {
+  console.log("MongoDB Connected");
 
-// ✅ SERVER START
-const PORT = process.env.PORT || 5000;
+  const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+
+})
+.catch(err => {
+  console.log("DB Error:", err);
 });
