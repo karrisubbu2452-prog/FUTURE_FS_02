@@ -1,8 +1,19 @@
 const mongoose = require("mongoose");
 
 const customerSchema = new mongoose.Schema({
-  name: String,
-  email: String,
+  name: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    trim: true,
+    match: [/^\S+@\S+\.\S+$/, "Invalid email"]
+  },
   phone: String,
   source: String,
   status: {
