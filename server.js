@@ -58,8 +58,8 @@ app.delete("/delete/:id", async (req, res) => {
   }
 });
 
-// ✅ DB CONNECT (ONLY ONCE)
 // ✅ DB CONNECT + SERVER START (correct way)
+console.log("MONGO_URI:", process.env.MONGO_URI);
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
