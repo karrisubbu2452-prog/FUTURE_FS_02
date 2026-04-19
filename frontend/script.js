@@ -21,7 +21,6 @@ async function addCustomer() {
 
   loadCustomers();
 
-  // clear inputs
   document.getElementById("name").value = "";
   document.getElementById("email").value = "";
   document.getElementById("phone").value = "";
@@ -35,7 +34,6 @@ async function loadCustomers() {
 
   const table = document.getElementById("table");
 
-  // reset table (keep header)
   table.innerHTML = `
     <tr>
       <th>Name</th>
@@ -55,6 +53,7 @@ async function loadCustomers() {
       <td>${user.phone || ""}</td>
       <td>${user.status}</td>
       <td>
+        <button onclick="editCustomer('${user._id}', '${user.name}', '${user.email}', '${user.phone || ""}')">Edit</button>
         <button onclick="deleteCustomer('${user._id}')">Delete</button>
       </td>
     `;
@@ -64,10 +63,30 @@ async function loadCustomers() {
 }
 
 
-// ❌ DELETE CUSTOMER
+// ❌ DELETE
 async function deleteCustomer(id) {
   await fetch(BASE_URL + "/delete/" + id, {
     method: "DELETE"
+  });
+
+  loadCustomers();
+}
+
+
+// ✏️ EDIT (UPDATE)
+async function editCustomer(id, oldName, oldEmail, oldPhone) {
+  const name = prompt("Enter new name", oldName);
+  const email = prompt("Enter new email", oldEmail);
+  const phone = prompt("Enter new phone", oldPhone);
+
+  if (!name || !email) return;
+
+  await fetch(BASE_URL + "/update/" + id, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ name, email, phone })
   });
 
   loadCustomers();
@@ -80,7 +99,7 @@ function searchCustomer() {
   const rows = document.querySelectorAll("#table tr");
 
   rows.forEach((row, index) => {
-    if (index === 0) return; // skip header
+    if (index === 0) return;
 
     const name = row.children[0].innerText.toLowerCase();
 

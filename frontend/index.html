@@ -2,34 +2,92 @@
 <html>
 <head>
   <title>Mini CRM</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+
+    h2 {
+      margin-top: 20px;
+    }
+
+    input {
+      padding: 8px;
+      margin: 5px 0;
+      width: 220px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 6px 12px;
+      margin: 3px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      background: #007bff;
+      color: white;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin-top: 10px;
+      width: 80%;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    th {
+      background: #eaeaea;
+    }
+  </style>
+
 </head>
 
 <body>
 
-  <h2>Add Customer</h2>
+<div class="container">
 
-  <input id="name" placeholder="Name"><br><br>
-  <input id="email" placeholder="Email"><br><br>
-  <input id="phone" placeholder="Phone"><br><br>
+  <h1>Mini CRM</h1>
 
-  <button onclick="addCustomer()">Add</button>
+  <div class="card">
+    <h2>Add Customer</h2>
+    <input id="name" placeholder="Name"><br>
+    <input id="email" placeholder="Email"><br>
+    <input id="phone" placeholder="Phone"><br>
+    <button onclick="addCustomer()">Add</button>
+  </div>
 
-  <h2>Customers</h2>
+  <div class="card">
+    <h2>Customers</h2>
 
-  <input id="search" placeholder="Search by name..." onkeyup="searchCustomer()">
-  <br><br>
+    <input id="search" placeholder="Search by name..." onkeyup="searchCustomer()">
 
-  <table border="1" id="table">
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
-  </table>
+    <table id="table">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </table>
+  </div>
 
-  <script src="script.js"></script>
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
