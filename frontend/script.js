@@ -51,10 +51,14 @@ async function loadCustomers() {
       <td>${user.name}</td>
       <td>${user.email}</td>
       <td>${user.phone || ""}</td>
-      <td>${user.status}</td>
+      <td style="color:${user.status === 'new' ? 'red' : 'green'}">
+  ${user.status === 'new' ? 'New' : 'Contacted'}
+</td>
       <td>
-        <button onclick="editCustomer('${user._id}', '${user.name}', '${user.email}', '${user.phone || ""}')">Edit</button>
-        <button onclick="deleteCustomer('${user._id}')">Delete</button>
+       <button onclick="updateStatus('${user._id}', 'new')">New</button>
+       <button onclick="updateStatus('${user._id}', 'contacted')">Contacted</button>
+       <button onclick="editCustomer('${user._id}', '${user.name}', '${user.email}', '${user.phone}')">Edit</button>
+       <button onclick="deleteCustomer('${user._id}')">Delete</button>
       </td>
     `;
 
@@ -110,3 +114,13 @@ function searchCustomer() {
 
 // 🔄 AUTO LOAD
 loadCustomers();
+function updateStatus(id, status) {
+  fetch(BASE_URL + "/update/" + id, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ status })
+  })
+  .then(() => loadCustomers());
+}

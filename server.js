@@ -51,19 +51,6 @@ app.put("/update/:id", async (req, res) => {
   }
 });
 
-app.put("/update/:id", async (req, res) => {
-  try {
-    const data = await Customer.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
 app.delete("/delete/:id", async (req, res) => {
   try {
     await Customer.findByIdAndDelete(req.params.id);
